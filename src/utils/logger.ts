@@ -1,12 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-
-const LOGS_DIR = path.join(process.cwd(), 'public', 'logs');
-
-if (!fs.existsSync(LOGS_DIR)) {
-    fs.mkdirSync(LOGS_DIR, { recursive: true });
-}
-
 export function logToFile(key: string, content: string): void {
     try {
         // fror testing sha

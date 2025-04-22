@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
+    "@sparticuz/chromium": "^133.0.0",
     "dotenv": "^16.5.0",
     "emitter": "^0.0.5",
     "express": "^5.1.0",
@@ -19,6 +20,7 @@
     "mysql2": "^3.14.0",
     "next": "15.3.1",
     "puppeteer": "^24.7.0",
+    "puppeteer-core": "^24.7.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "uuid": "^11.1.0"

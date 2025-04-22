@@ -1,9 +1,15 @@
 import puppeteer from 'puppeteer';
 
 export async function scrapePortfolio(url: string) {
-  const browser = await puppeteer.launch({ 
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  // Read the Browserless.io API key from environment variables
+  const browserlessApiKey = process.env.BROWSERLESS_API_KEY;
+  if (!browserlessApiKey) {
+    throw new Error('Browserless API key is missing in environment variables');
+  }
+
+  // Connect to Browserless.io
+  const browser = await puppeteer.connect({
+    browserWSEndpoint: `wss://chrome.browserless.io?token=${browserlessApiKey}`,
   });
   const page = await browser.newPage();
   

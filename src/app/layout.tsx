@@ -1,8 +1,14 @@
-import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
 import "./globals.css";
+import type { Metadata } from "next";
+import { Montserrat } from 'next/font/google'
 
-const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
+const montserrat = Montserrat({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+});
+
+
 
 export const metadata: Metadata = {
   title: "RunMeCV - AI Resume Generator",
@@ -16,7 +22,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montserrat.variable} font-sans`}>{children}</body>
+      <body className={`${montserrat.className}`}>
+        {children}</body>
     </html>
   );
 }

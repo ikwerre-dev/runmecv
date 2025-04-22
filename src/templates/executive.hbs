@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{intro.name}} - Executive Resume</title>
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --accent: #34495e;
+      --gold: #c4a777;
+    }
+    body {
+      font-family: 'Georgia', serif;
+      line-height: 1.6;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 50px;
+      color: var(--primary);
+      background: #ffffff;
+    }
+    .header {
+      border-bottom: 3px solid var(--gold);
+      padding-bottom: 30px;
+      margin-bottom: 40px;
+    }
+    .name {
+      font-size: 36px;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+    .title {
+      font-size: 24px;
+      color: var(--accent);
+      margin: 10px 0;
+    }
+    .contact {
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+    .section {
+      margin: 35px 0;
+    }
+    .section-title {
+      font-size: 22px;
+      color: var(--primary);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 8px;
+      margin-bottom: 25px;
+    }
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin: 20px 0;
+    }
+    .highlight-item {
+      padding: 20px;
+      background: #f8f9fa;
+      border-left: 3px solid var(--gold);
+    }
+    .experience-item {
+      margin: 30px 0;
+    }
+    .position {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .organization {
+      font-size: 18px;
+      color: var(--accent);
+    }
+    .metrics {
+      display: flex;
+      gap: 30px;
+      margin: 10px 0;
+      font-style: italic;
+    }
+    .board-position {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f8f9fa;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1 class="name">{{intro.name}}</h1>
+    <p class="title">{{intro.title}}</p>
+    <div class="contact">
+      <span>{{intro.email}}</span>
+      <span>{{intro.phone}}</span>
+      <span>{{intro.location}}</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Executive Profile</h2>
+    <p>{{intro.executive_summary}}</p>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Career Highlights</h2>
+    <div class="highlights">
+      {{#each highlights}}
+      <div class="highlight-item">
+        <h3>{{achievement}}</h3>
+        <p>{{impact}}</p>
+        <p class="scale">Scale: {{scale}}</p>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Leadership Experience</h2>
+    {{#each experience}}
+    <div class="experience-item">
+      <div class="position">{{position}}</div>
+      <div class="organization">{{organization}} | {{period}}</div>
+      <div class="metrics">
+        <span>P&L: {{p_and_l}}</span>
+        <span>Team Size: {{team_size}}</span>
+      </div>
+      <ul>
+        {{#each achievements}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Board Positions</h2>
+    {{#each board}}
+    <div class="board-position">
+      <h3>{{organization}}</h3>
+      <p>{{role}} | {{period}}</p>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Education & Credentials</h2>
+    {{#each education}}
+    <div class="education-item">
+      <h3>{{degree}}</h3>
+      <p>{{institution}}</p>
+      {{#if honors}}<p class="honors">{{honors}}</p>{{/if}}
+    </div>
+    {{/each}}
+  </div>
+</body>
+</html>

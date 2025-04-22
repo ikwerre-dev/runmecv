@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{intro.name}} - Academic CV</title>
+  <style>
+    :root {
+      --primary: #14213d;
+      --secondary: #4a5568;
+      --accent: #1a365d;
+    }
+    body {
+      font-family: 'Times New Roman', serif;
+      line-height: 1.6;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px;
+      color: var(--primary);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 20px;
+    }
+    .name {
+      font-size: 2.5em;
+      margin: 0;
+    }
+    .title {
+      font-size: 1.5em;
+      color: var(--secondary);
+      margin: 10px 0;
+    }
+    .contact-info {
+      margin-top: 15px;
+      font-style: italic;
+    }
+    .section {
+      margin: 30px 0;
+    }
+    .section-title {
+      font-size: 1.8em;
+      color: var(--accent);
+      border-bottom: 1px solid var(--secondary);
+      margin-bottom: 20px;
+    }
+    .research-area {
+      margin: 15px 0;
+    }
+    .publication {
+      margin: 20px 0;
+      padding-left: 25px;
+      text-indent: -25px;
+    }
+    .grant {
+      margin: 15px 0;
+      padding: 15px;
+      background: #f8f9fa;
+    }
+    .course {
+      margin: 15px 0;
+    }
+    .degree {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1 class="name">{{intro.name}}, {{intro.title}}</h1>
+    <p class="title">{{intro.department}}</p>
+    <p class="title">{{intro.institution}}</p>
+    <div class="contact-info">
+      {{intro.email}} | {{intro.phone}} | {{intro.address}}
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Research Interests</h2>
+    {{#each research.areas}}
+    <div class="research-area">
+      <h3>{{this.area}}</h3>
+      <p>{{this.description}}</p>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Publications</h2>
+    {{#each publications}}
+    <div class="publication">
+      {{citation}}
+      {{#if doi}}<br>DOI: {{doi}}{{/if}}
+      {{#if impact_factor}}<br>Impact Factor: {{impact_factor}}{{/if}}
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Research Grants</h2>
+    {{#each grants}}
+    <div class="grant">
+      <h3>{{title}}</h3>
+      <p><strong>Funding Body:</strong> {{funding_body}}</p>
+      <p><strong>Amount:</strong> {{amount}}</p>
+      <p><strong>Period:</strong> {{period}}</p>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Teaching Experience</h2>
+    {{#each teaching}}
+    <div class="course">
+      <h3>{{course}}</h3>
+      <p>{{level}} - {{institution}}</p>
+      <p>{{period}}</p>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Education</h2>
+    {{#each education}}
+    <div class="degree">
+      <h3>{{degree}}</h3>
+      <p><strong>Institution:</strong> {{institution}}</p>
+      <p><strong>Thesis:</strong> {{thesis}}</p>
+      <p><strong>Advisors:</strong> {{advisors}}</p>
+    </div>
+    {{/each}}
+  </div>
+</body>
+</html>

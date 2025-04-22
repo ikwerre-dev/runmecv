@@ -1,0 +1,171 @@
+{
+  "Google": {
+    "sections": {
+      "intro": {
+        "title": "Professional Summary",
+        "fields": ["name", "email", "phone", "location", "portfolio"]
+      },
+      "experience": {
+        "title": "Work Experience",
+        "multiple": true,
+        "fields": ["company", "position", "duration", "location", "achievements"]
+      },
+      "skills": {
+        "title": "Technical Skills",
+        "grouping": ["Programming", "Tools", "Soft Skills"]
+      },
+      "projects": {
+        "title": "Featured Projects",
+        "multiple": true,
+        "fields": ["name", "technologies", "description", "link"]
+      },
+      "education": {
+        "title": "Education",
+        "multiple": true,
+        "fields": ["degree", "institution", "duration", "gpa"]
+      }
+    },
+    "style": {
+      "layout": "two-column",
+      "emphasis": "achievements",
+      "colorScheme": "google-brand"
+    }
+  },
+  "Apple": {
+    "sections": {
+      "intro": {
+        "title": "About Me",
+        "fields": ["name", "role", "email", "location", "portfolio"]
+      },
+      "expertise": {
+        "title": "Core Expertise",
+        "style": "grid",
+        "fields": ["skills", "tools", "methodologies"]
+      },
+      "experience": {
+        "title": "Professional Journey",
+        "multiple": true,
+        "fields": ["role", "company", "period", "impact", "innovations"]
+      },
+      "projects": {
+        "title": "Signature Projects",
+        "multiple": true,
+        "fields": ["title", "stack", "outcome", "link"]
+      },
+      "education": {
+        "title": "Education & Certifications",
+        "multiple": true,
+        "fields": ["qualification", "institution", "year"]
+      }
+    },
+    "style": {
+      "layout": "minimal",
+      "emphasis": "innovation",
+      "colorScheme": "apple-minimal"
+    }
+  },
+  "ATS-Friendly": {
+    "sections": {
+      "intro": {
+        "title": "Professional Summary",
+        "fields": ["name", "contact", "headline", "summary"]
+      },
+      "skills": {
+        "title": "Core Competencies",
+        "style": "list",
+        "keywords": true
+      },
+      "experience": {
+        "title": "Professional Experience",
+        "multiple": true,
+        "fields": ["title", "company", "dates", "responsibilities", "metrics"]
+      },
+      "education": {
+        "title": "Education",
+        "multiple": true,
+        "fields": ["degree", "major", "school", "graduation"]
+      },
+      "certifications": {
+        "title": "Certifications",
+        "multiple": true,
+        "fields": ["name", "issuer", "date"]
+      }
+    },
+    "style": {
+      "layout": "single-column",
+      "emphasis": "keywords",
+      "formatting": "simple"
+    }
+  },
+  "Academic": {
+    "sections": {
+      "intro": {
+        "title": "Contact Information",
+        "fields": ["name", "title", "department", "institution", "contact"]
+      },
+      "research": {
+        "title": "Research Interests",
+        "style": "detailed",
+        "fields": ["areas", "methodologies", "current_focus"]
+      },
+      "publications": {
+        "title": "Publications",
+        "multiple": true,
+        "fields": ["citation", "doi", "impact_factor"]
+      },
+      "grants": {
+        "title": "Research Grants",
+        "multiple": true,
+        "fields": ["title", "amount", "period", "funding_body"]
+      },
+      "teaching": {
+        "title": "Teaching Experience",
+        "multiple": true,
+        "fields": ["course", "level", "institution", "period"]
+      },
+      "education": {
+        "title": "Education",
+        "multiple": true,
+        "fields": ["degree", "institution", "thesis", "advisors"]
+      }
+    },
+    "style": {
+      "layout": "academic",
+      "emphasis": "publications",
+      "citations": "APA"
+    }
+  },
+  "Executive": {
+    "sections": {
+      "intro": {
+        "title": "Executive Profile",
+        "fields": ["name", "title", "contact", "executive_summary"]
+      },
+      "highlights": {
+        "title": "Career Highlights",
+        "style": "bullets",
+        "fields": ["achievements", "impact", "scale"]
+      },
+      "experience": {
+        "title": "Leadership Experience",
+        "multiple": true,
+        "fields": ["position", "organization", "period", "p&l", "team_size", "achievements"]
+      },
+      "board": {
+        "title": "Board Positions",
+        "multiple": true,
+        "fields": ["organization", "role", "period"]
+      },
+      "education": {
+        "title": "Education & Credentials",
+        "multiple": true,
+        "fields": ["degree", "institution", "honors"]
+      }
+    },
+    "style": {
+      "layout": "executive",
+      "emphasis": "leadership",
+      "colorScheme": "professional"
+    }
+  }
+}

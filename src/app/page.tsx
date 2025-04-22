@@ -1,17 +1,80 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Wand2, Bot, Cpu } from "lucide-react";
 import Modal from "@/components/Modal";
 import ResumeForm from "@/components/ResumeForm";
 import ResumePreview from "@/components/ResumePreview";
 
+const headlines = [
+  { top: "Create Your", bottom: "Dream Resume" },
+  { top: "Design Your", bottom: "Future Career" },
+  { top: "Build Your", bottom: "Professional Story" },
+  { top: "Craft Your", bottom: "Perfect Resume" },
+];
+
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [resumeData, setResumeData] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    let scrollAccumulator = 0;
+    const scrollThreshold = 100;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (!(e.target as HTMLElement).closest('.modal-content')) {
+        e.preventDefault();
+        if (isScrolling) return;
+        
+        scrollAccumulator += e.deltaY;
+
+        if (Math.abs(scrollAccumulator) >= scrollThreshold) {
+          handleScroll(scrollAccumulator > 0);
+          scrollAccumulator = 0;
+        }
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (isScrolling) return;
+      
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        handleScroll(e.key === 'ArrowDown');
+      }
+    };
+
+    const handleScroll = (scrollDown: boolean) => {
+      setIsScrolling(true);
+      
+      if (scrollDown) {
+        setCurrentIndex(prev => (prev + 1) % headlines.length);
+      } else {
+        setCurrentIndex(prev => (prev - 1 + headlines.length) % headlines.length);
+      }
+
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      const timeout = setTimeout(() => {
+        setIsScrolling(false);
+      }, 800);
+      setScrollTimeout(timeout);
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('keydown', handleKeyDown);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+    };
+  }, [isScrolling, scrollTimeout]);
 
   const handleFormSubmit = (data: any) => {
     setFormSubmitted(true);
@@ -32,14 +95,8 @@ export default function Home() {
 
       <div className="absolute inset-0 border border-[#FF66B3]/10" />
 
-      <div className="relative flex-1 flex flex-col items-center justify-center px-6 py-12">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-[#FF66B3] to-transparent" />
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center space-y-8 relative"
-        >
+      <div className="relative flex-1 flex items-center justify-center px-6 py-12">
+        <div className="text-center space-y-8">
           <motion.div
             className="inline-flex items-center gap-2 bg-[#FF66B3]/10 px-6 py-3 rounded-full border border-[#FF66B3]/20"
             whileHover={{ scale: 1.05 }}
@@ -49,11 +106,32 @@ export default function Home() {
             <Cpu className="h-5 w-5 text-[#FF66B3]" />
           </motion.div>
 
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
-            <span className="text-[#FFFBDB]">Create Your</span>
-            <br />
-            <span className="text-[#FF66B3]">Dream Resume</span>
-          </h1>
+          <motion.h1
+            className="text-5xl md:text-7xl font-bold tracking-tight"
+            initial={false}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            key={currentIndex}
+          >
+            <motion.span
+              className="text-[#FFFBDB] block"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+            >
+              {headlines[currentIndex].top}
+            </motion.span>
+            <motion.span
+              className="text-[#FF66B3] block"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              {headlines[currentIndex].bottom}
+            </motion.span>
+          </motion.h1>
 
           <p className="text-[#FFFBDB]/70 max-w-2xl mx-auto text-lg">
             Transform your career journey with our AI-powered resume builder.
@@ -73,11 +151,7 @@ export default function Home() {
               <Sparkles className="h-5 w-5" />
             </div>
           </motion.button>
-        </motion.div>
-
-        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#FF66B3] to-transparent" />
-
-        <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-[#0C1713] to-transparent" />
+        </div>
       </div>
 
       <AnimatePresence>

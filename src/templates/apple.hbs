@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{intro.name}} - Resume</title>
+  <style>
+    :root {
+      --apple-gray: #86868b;
+      --apple-black: #1d1d1f;
+      --apple-blue: #0066cc;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+      line-height: 1.5;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 50px;
+      color: var(--apple-black);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .name {
+      font-size: 3em;
+      font-weight: 700;
+      margin: 0;
+    }
+    .role {
+      color: var(--apple-gray);
+      font-size: 1.5em;
+      margin: 10px 0;
+    }
+    .contact {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      color: var(--apple-blue);
+    }
+    .section {
+      margin: 40px 0;
+    }
+    .section-title {
+      font-size: 1.8em;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .expertise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .expertise-item {
+      background: #f5f5f7;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    .experience-item {
+      margin: 25px 0;
+      padding-left: 20px;
+      border-left: 2px solid var(--apple-blue);
+    }
+    .project {
+      margin: 20px 0;
+      padding: 20px;
+      background: #f5f5f7;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1 class="name">{{intro.name}}</h1>
+    <p class="role">{{intro.role}}</p>
+    <div class="contact">
+      <span>{{intro.email}}</span>
+      <span>{{intro.location}}</span>
+      <a href="{{intro.portfolio}}">Portfolio</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Core Expertise</h2>
+    <div class="expertise-grid">
+      {{#each expertise.skills}}
+      <div class="expertise-item">
+        <h3>{{@key}}</h3>
+        <ul>
+          {{#each this}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Professional Journey</h2>
+    {{#each experience}}
+    <div class="experience-item">
+      <h3>{{role}}</h3>
+      <p class="company">{{company}} | {{period}}</p>
+      <p class="impact">{{impact}}</p>
+      <ul>
+        {{#each innovations}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Signature Projects</h2>
+    {{#each projects}}
+    <div class="project">
+      <h3>{{title}}</h3>
+      <p class="stack">{{stack}}</p>
+      <p>{{outcome}}</p>
+      <a href="{{link}}">View Project →</a>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Education & Certifications</h2>
+    {{#each education}}
+    <div class="education-item">
+      <h3>{{qualification}}</h3>
+      <p>{{institution}} | {{year}}</p>
+    </div>
+    {{/each}}
+  </div>
+</body>
+</html>

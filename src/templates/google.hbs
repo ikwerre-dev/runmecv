@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{intro.name}} - Resume</title>
+  <style>
+    :root {
+      --google-blue: #4285f4;
+      --google-red: #ea4335;
+      --google-yellow: #fbbc05;
+      --google-green: #34a853;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+    .header {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      margin-bottom: 30px;
+    }
+    .name {
+      font-size: 2.5em;
+      color: var(--google-blue);
+      margin: 0;
+    }
+    .contact {
+      text-align: right;
+      font-size: 0.9em;
+    }
+    .section {
+      margin: 25px 0;
+    }
+    .section-title {
+      color: var(--google-red);
+      border-bottom: 2px solid var(--google-yellow);
+      padding-bottom: 5px;
+    }
+    .experience-item {
+      margin: 15px 0;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1 class="name">{{intro.name}}</h1>
+      <p>{{intro.title}}</p>
+    </div>
+    <div class="contact">
+      <p>{{intro.email}}</p>
+      <p>{{intro.phone}}</p>
+      <p>{{intro.location}}</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Professional Summary</h2>
+    <p>{{intro.summary}}</p>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Experience</h2>
+    {{#each experience}}
+    <div class="experience-item">
+      <h3>{{position}} at {{company}}</h3>
+      <p class="duration">{{duration}}</p>
+      <ul>
+        {{#each achievements}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Skills</h2>
+    <div class="skills-grid">
+      {{#each skills}}
+      <div>
+        <h3>{{@key}}</h3>
+        <ul>
+          {{#each this}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Projects</h2>
+    {{#each projects}}
+    <div class="project-item">
+      <h3>{{name}}</h3>
+      <p>{{description}}</p>
+      <p><strong>Technologies:</strong> {{technologies}}</p>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Education</h2>
+    {{#each education}}
+    <div class="education-item">
+      <h3>{{degree}}</h3>
+      <p>{{institution}} - {{duration}}</p>
+      {{#if gpa}}<p>GPA: {{gpa}}</p>{{/if}}
+    </div>
+    {{/each}}
+  </div>
+</body>
+</html>

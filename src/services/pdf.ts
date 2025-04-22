@@ -31,5 +31,5 @@ export async function generatePDF(resumeData: any, format: string): Promise<Buff
   });
 
   await browser.close();
-  return Buffer.from(pdfBuffer);   
+  return Buffer.from(pdfBuffer);
 }

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Download, Share2, ChefHat, X, FileText, Briefcase, Mail, ChevronDown, ChevronUp } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const loadingMessages = [
@@ -200,6 +201,8 @@ export default function ResumePreview({
               href={`data:application/pdf;base64,${data.pdf}`} 
               download="resume.pdf"
               className="flex items-center gap=2"
+              target="_blank" 
+              rel="noopener noreferrer" 
             >
               <Download className="h-5 w-5" />
               Download PDF

@@ -4,8 +4,8 @@
   <a href="https://runmecv.vercel.app/" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
-  <a href="https://twitter.com/honour\_can\_code" target="_blank">
-    <img alt="Twitter: honour\_can\_code" src="https://img.shields.io/twitter/follow/honour\_can\_code.svg?style=social" />
+  <a href="https://twitter.com/honour_can_code" target="_blank">
+    <img alt="Twitter: honour_can_code" src="https://img.shields.io/twitter/follow/honour_can_code.svg?style=social" />
   </a>
 </p>
 

@@ -6,6 +6,8 @@ import { Sparkles, Wand2, Bot, Cpu } from "lucide-react";
 import Modal from "@/components/Modal";
 import ResumeForm from "@/components/ResumeForm";
 import ResumePreview from "@/components/ResumePreview";
+import { Github } from "lucide-react";
+import Link from "next/link";
 
 const headlines = [
   { top: "Create Your", bottom: "Dream Resume" },
@@ -31,7 +33,7 @@ export default function Home() {
       if (!(e.target as HTMLElement).closest('.modal-content')) {
         e.preventDefault();
         if (isScrolling) return;
-        
+
         scrollAccumulator += e.deltaY;
 
         if (Math.abs(scrollAccumulator) >= scrollThreshold) {
@@ -43,7 +45,7 @@ export default function Home() {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (isScrolling) return;
-      
+
       if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
         e.preventDefault();
         handleScroll(e.key === 'ArrowDown');
@@ -52,7 +54,7 @@ export default function Home() {
 
     const handleScroll = (scrollDown: boolean) => {
       setIsScrolling(true);
-      
+
       if (scrollDown) {
         setCurrentIndex(prev => (prev + 1) % headlines.length);
       } else {
@@ -68,7 +70,7 @@ export default function Home() {
 
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('keydown', handleKeyDown);
-    
+
     return () => {
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('keydown', handleKeyDown);
@@ -94,6 +96,15 @@ export default function Home() {
       <div className="absolute bottom-10 right-10 w-32 h-32 bg-[#FFFBDB]/20 rounded-full blur-xl" />
 
       <div className="absolute inset-0 border border-[#FF66B3]/10" />
+
+      <Link
+        href="https://github.com/ikwerre-dev/runmecv"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute top-5 right-5 z-10"
+      >
+        <Github className="h-8 w-8 text-[#FFFBDB] hover:text-[#FFFBDB]/50 transition-colors" />
+      </Link>
 
       <div className="relative flex-1 flex items-center justify-center px-6 py-12">
         <div className="text-center space-y-8">
@@ -138,19 +149,32 @@ export default function Home() {
             Create professional, tailored resumes in minutes.
           </p>
 
-          <motion.button
-            onClick={() => setIsModalOpen(true)}
-            className="relative group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <div className="absolute inset-0 bg-[#FF66B3] rounded-full blur-sm opacity-50 group-hover:opacity-75 transition-opacity" />
-            <div className="relative bg-[#FF66B3] text-[#FFFBDB] text-lg px-8 py-4 rounded-full flex items-center justify-center gap-2 border border-[#FF66B3]/50">
-              <Wand2 className="h-5 w-5" />
-              Create Your Resume
-              <Sparkles className="h-5 w-5" />
+          <div className="flex gap-5 flex-col">
+            <div className="">
+              <motion.button
+                onClick={() => setIsModalOpen(true)}
+                className="relative group"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <div className="absolute inset-0 bg-[#FF66B3] rounded-full blur-sm opacity-50 group-hover:opacity-75 transition-opacity" />
+                <div className="relative bg-[#FF66B3] text-[#FFFBDB] text-lg px-8 py-4 rounded-full flex items-center justify-center gap-2 border border-[#FF66B3]/50">
+                  <Wand2 className="h-5 w-5" />
+                  Create Your Resume
+                  <Sparkles className="h-5 w-5" />
+                </div>
+              </motion.button>
             </div>
-          </motion.button>
+
+            <Link
+              href="https://robinsonhonour.me"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#FFFBDB] text-sm hover:text-[#FFFBDB]/50 transition-colors"
+            >
+              Who built this?
+            </Link>
+          </div>
         </div>
       </div>
 

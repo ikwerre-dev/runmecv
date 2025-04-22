@@ -18,11 +18,11 @@ type ExpandedSections = {
   resumeContent: boolean;
 };
 
-export default function ResumePreview({ 
-  data, 
+export default function ResumePreview({
+  data,
   loading,
-  onReset 
-}: { 
+  onReset
+}: {
   data: any;
   loading: boolean;
   onReset: () => void;
@@ -113,7 +113,7 @@ export default function ResumePreview({
                   <Briefcase className="h-5 w-5 mr-5 text-[#FF66B3]" />
                   <h4 className="text-lg font-semibold text-[#FF66B3]">Portfolio Analysis</h4>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div>
                     <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Strengths:</h5>
@@ -123,7 +123,7 @@ export default function ResumePreview({
                       ))}
                     </ul>
                   </div>
-                  
+
                   <div>
                     <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Weaknesses:</h5>
                     <ul className="list-disc pl-5 text-[#FFFBDB]/80">
@@ -132,7 +132,7 @@ export default function ResumePreview({
                       ))}
                     </ul>
                   </div>
-                  
+
                   <div>
                     <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Suggestions:</h5>
                     <ul className="list-disc pl-5 text-[#FFFBDB]/80">
@@ -141,7 +141,7 @@ export default function ResumePreview({
                       ))}
                     </ul>
                   </div>
-                  
+
                   <div>
                     <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Rating:</h5>
                     <p className="text-[#FFFBDB]/80 text-3xl">{data.portfolioAnalysis.rating}/100</p>
@@ -190,25 +190,29 @@ export default function ResumePreview({
 
       {/* PDF Download */}
       {data.pdf && (
-        <motion.button
+        <motion.a
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className="relative group w-full"
+          href={`data:application/pdf;base64,${data.pdf}`}
+          download="resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <div className="absolute inset-0 bg-[#FF66B3] rounded-xl blur-sm opacity=50 group-hover:opacity=75 transition-opacity" />
           <div className="relative bg-[#FF66B3] text-[#FFFBDB] px-6 py-3 rounded-xl flex items-center justify-center gap=2 border border-[#FF66B3]/50">
-            <a 
-              href={`data:application/pdf;base64,${data.pdf}`} 
+            <a
+              href={`data:application/pdf;base64,${data.pdf}`}
               download="resume.pdf"
               className="flex items-center gap=2"
-              target="_blank" 
-              rel="noopener noreferrer" 
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Download className="h-5 w-5" />
               Download PDF
             </a>
           </div>
-        </motion.button>
+        </motion.a>
       )}
     </div>
   );

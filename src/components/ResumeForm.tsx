@@ -7,7 +7,9 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 
 const portfolioFormats = ["Creative", "Formal", "Modern", "Minimalist", "Technical"];
-const resumeFormats = ["Google", "Apple", "ATS-Friendly", "Academic", "Executive"];
+const resumeFormats = ["Google"];
+// gotta modify the .hbs for these other ones, got work to do..prolly later
+// const resumeFormats = ["Google", "Apple", "ATS-Friendly", "Academic", "Executive"];
 
 interface FormErrors {
 

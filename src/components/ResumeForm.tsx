@@ -110,6 +110,7 @@ export default function ResumeForm({ onSubmit }: { onSubmit: (data: any) => void
       const result = await response.json();
 
       if (!result.success) {
+        console.log(result.error);
         throw new Error(result.error || 'Failed to generate resume');
       }
 

@@ -64,66 +64,100 @@
 </head>
 <body>
   <div class="header">
-    <h1 class="name">{{intro.name}}</h1>
+    <h1 class="name">{{#if sections.intro.fields.name}}{{sections.intro.fields.name}}{{else}}Your Name{{/if}}</h1>
     <div class="contact">
-      {{intro.email}} | {{intro.phone}} | {{intro.location}}
-    </div>
-    <div class="headline">
-      {{intro.headline}}
+      {{#if sections.intro.fields.email}}{{sections.intro.fields.email}} | {{/if}}
+      {{#if sections.intro.fields.phone}}{{sections.intro.fields.phone}} | {{/if}}
+      {{#if sections.intro.fields.location}}{{sections.intro.fields.location}} | {{/if}}
+      {{#if sections.links.fields.portfolio_url}}{{sections.links.fields.portfolio_url}}{{/if}}
     </div>
   </div>
 
+  {{#if sections.experience.fields}}
   <div class="section">
-    <h2 class="section-title">Professional Summary</h2>
-    <p>{{intro.summary}}</p>
+    <h2 class="section-title">Professional Experience</h2>
+    {{#each sections.experience.fields}}
+    <div class="experience-item">
+      <div class="company-title">{{position}} - {{company}}</div>
+      {{#if duration}}<div class="dates">{{duration}}</div>{{/if}}
+      {{#if achievements}}<p>{{achievements}}</p>{{/if}}
+    </div>
+    {{/each}}
   </div>
+  {{/if}}
 
+  {{#if sections.skills.grouping}}
   <div class="section">
-    <h2 class="section-title">Core Competencies</h2>
+    <h2 class="section-title">Skills</h2>
     <div class="skills-list">
-      {{#each skills}}
-        <span class="skill">{{this}}</span>
+      {{#each sections.skills.grouping}}
+        {{#each skills}}
+          <span class="skill">{{this}}</span>
+        {{/each}}
       {{/each}}
     </div>
   </div>
+  {{/if}}
 
+  {{#if sections.projects.fields}}
   <div class="section">
-    <h2 class="section-title">Professional Experience</h2>
-    {{#each experience}}
-    <div class="experience-item">
-      <div class="company-title">{{title}} - {{company}}</div>
-      <div class="dates">{{dates}}</div>
-      <ul>
-        {{#each responsibilities}}
-        <li>{{this}}</li>
-        {{/each}}
-        {{#each metrics}}
-        <li>{{this}}</li>
-        {{/each}}
-      </ul>
+    <h2 class="section-title">Projects</h2>
+    {{#each sections.projects.fields}}
+    <div class="project">
+      <h3>{{name}}</h3>
+      {{#if description}}<p>{{description}}</p>{{/if}}
+      {{#if technologies}}<p><strong>Technologies:</strong> {{technologies}}</p>{{/if}}
     </div>
     {{/each}}
   </div>
+  {{/if}}
 
-  <div class="section">
-    <h2 class="section-title">Education</h2>
-    {{#each education}}
-    <div class="education-item">
-      <div class="company-title">{{degree}} in {{major}}</div>
-      <div>{{school}}</div>
-      <div class="dates">Graduated: {{graduation}}</div>
-    </div>
-    {{/each}}
-  </div>
-
+  {{#if sections.certifications.fields}}
   <div class="section">
     <h2 class="section-title">Certifications</h2>
-    {{#each certifications}}
-    <div class="certification-item">
-      <div class="company-title">{{name}}</div>
-      <div>{{issuer}} - {{date}}</div>
+    {{#each sections.certifications.fields}}
+    <div class="certification">
+      <h3>{{name}}</h3>
+      <p>{{issuer}} - {{date}}</p>
     </div>
     {{/each}}
   </div>
+  {{/if}}
+
+  {{#if sections.languages.fields}}
+  <div class="section">
+    <h2 class="section-title">Languages</h2>
+    <ul>
+      {{#each sections.languages.fields}}
+      <li>{{language}} - {{proficiency}}</li>
+      {{/each}}
+    </ul>
+  </div>
+  {{/if}}
+
+  {{#if sections.awards.fields}}
+  <div class="section">
+    <h2 class="section-title">Awards</h2>
+    {{#each sections.awards.fields}}
+    <div class="award">
+      <h3>{{title}}</h3>
+      <p>{{issuer}} - {{date}}</p>
+      {{#if description}}<p>{{description}}</p>{{/if}}
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  {{#if sections.education.fields}}
+  <div class="section">
+    <h2 class="section-title">Education</h2>
+    {{#each sections.education.fields}}
+    <div class="education-item">
+      <h3>{{degree}}</h3>
+      <p>{{institution}} - {{duration}}</p>
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
 </body>
 </html>

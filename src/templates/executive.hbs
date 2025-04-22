@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>{{intro.name}} - Executive Resume</title>
+  <title>{{sections.intro.fields.name}} - Executive Resume</title>
   <style>
     :root {
       --primary: #2c3e50;
@@ -87,36 +87,19 @@
 </head>
 <body>
   <div class="header">
-    <h1 class="name">{{intro.name}}</h1>
-    <p class="title">{{intro.title}}</p>
+    <h1 class="name">{{#if sections.intro.fields.name}}{{sections.intro.fields.name}}{{else}}Your Name{{/if}}</h1>
     <div class="contact">
-      <span>{{intro.email}}</span>
-      <span>{{intro.phone}}</span>
-      <span>{{intro.location}}</span>
+      {{#if sections.intro.fields.email}}<span>{{sections.intro.fields.email}}</span>{{/if}}
+      {{#if sections.intro.fields.phone}}<span>{{sections.intro.fields.phone}}</span>{{/if}}
+      {{#if sections.intro.fields.location}}<span>{{sections.intro.fields.location}}</span>{{/if}}
+      {{#if sections.links.fields.portfolio_url}}<span>{{sections.links.fields.portfolio_url}}</span>{{/if}}
     </div>
   </div>
 
-  <div class="section">
-    <h2 class="section-title">Executive Profile</h2>
-    <p>{{intro.executive_summary}}</p>
-  </div>
-
-  <div class="section">
-    <h2 class="section-title">Career Highlights</h2>
-    <div class="highlights">
-      {{#each highlights}}
-      <div class="highlight-item">
-        <h3>{{achievement}}</h3>
-        <p>{{impact}}</p>
-        <p class="scale">Scale: {{scale}}</p>
-      </div>
-      {{/each}}
-    </div>
-  </div>
-
+  {{#if sections.experience.fields}}
   <div class="section">
     <h2 class="section-title">Leadership Experience</h2>
-    {{#each experience}}
+    {{#each sections.experience.fields}}
     <div class="experience-item">
       <div class="position">{{position}}</div>
       <div class="organization">{{organization}} | {{period}}</div>
@@ -124,34 +107,91 @@
         <span>P&L: {{p_and_l}}</span>
         <span>Team Size: {{team_size}}</span>
       </div>
-      <ul>
-        {{#each achievements}}
-        <li>{{this}}</li>
-        {{/each}}
-      </ul>
+      {{#if achievements}}<p>{{achievements}}</p>{{/if}}
     </div>
     {{/each}}
   </div>
+  {{/if}}
 
+  {{#if sections.skills.grouping}}
+  <div class="section">
+    <h2 class="section-title">Executive Skills</h2>
+    <div class="skills-grid">
+      {{#each sections.skills.grouping}}
+      <div>
+        <h3>{{category}}</h3>
+        {{#if skills}}
+        <ul>
+          {{#each skills}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+        {{/if}}
+      </div>
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if sections.certifications.fields}}
+  <div class="section">
+    <h2 class="section-title">Certifications</h2>
+    {{#each sections.certifications.fields}}
+    <div class="certification">
+      <h3>{{name}}</h3>
+      <p>{{issuer}} - {{date}}</p>
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  {{#if sections.languages.fields}}
+  <div class="section">
+    <h2 class="section-title">Languages</h2>
+    <ul>
+      {{#each sections.languages.fields}}
+      <li>{{language}} - {{proficiency}}</li>
+      {{/each}}
+    </ul>
+  </div>
+  {{/if}}
+
+  {{#if sections.awards.fields}}
+  <div class="section">
+    <h2 class="section-title">Awards & Recognition</h2>
+    {{#each sections.awards.fields}}
+    <div class="award">
+      <h3>{{title}}</h3>
+      <p>{{issuer}} - {{date}}</p>
+      {{#if description}}<p>{{description}}</p>{{/if}}
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  {{#if sections.board.fields}}
   <div class="section">
     <h2 class="section-title">Board Positions</h2>
-    {{#each board}}
+    {{#each sections.board.fields}}
     <div class="board-position">
       <h3>{{organization}}</h3>
       <p>{{role}} | {{period}}</p>
     </div>
     {{/each}}
   </div>
+  {{/if}}
 
+  {{#if sections.education.fields}}
   <div class="section">
     <h2 class="section-title">Education & Credentials</h2>
-    {{#each education}}
+    {{#each sections.education.fields}}
     <div class="education-item">
       <h3>{{degree}}</h3>
-      <p>{{institution}}</p>
+      <p>{{institution}} - {{duration}}</p>
       {{#if honors}}<p class="honors">{{honors}}</p>{{/if}}
     </div>
     {{/each}}
   </div>
+  {{/if}}
 </body>
 </html>

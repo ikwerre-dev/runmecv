@@ -3,7 +3,11 @@
     "sections": {
       "intro": {
         "title": "Professional Summary",
-        "fields": ["name", "email", "phone", "location", "portfolio"]
+        "fields": ["name", "email", "phone", "location", "portfolio_url", "summary"]
+      },
+      "links": {
+        "title": "Online Presence",
+        "fields": ["github", "linkedin", "portfolio_url"]
       },
       "experience": {
         "title": "Work Experience",
@@ -18,6 +22,20 @@
         "title": "Featured Projects",
         "multiple": true,
         "fields": ["name", "technologies", "description", "link"]
+      },
+      "certifications": {
+        "title": "Certifications",
+        "multiple": true,
+        "fields": ["name", "issuer", "date"]
+      },
+      "languages": {
+        "title": "Languages",
+        "fields": ["language", "proficiency"]
+      },
+      "awards": {
+        "title": "Awards & Recognition",
+        "multiple": true,
+        "fields": ["title", "issuer", "date", "description"]
       },
       "education": {
         "title": "Education",
@@ -35,7 +53,11 @@
     "sections": {
       "intro": {
         "title": "About Me",
-        "fields": ["name", "role", "email", "location", "portfolio"]
+        "fields": ["name", "role", "email", "location", "portfolio_url", "summary"]
+      },
+      "links": {
+        "title": "Connect With Me",
+        "fields": ["github", "linkedin", "portfolio_url"]
       },
       "expertise": {
         "title": "Core Expertise",
@@ -51,6 +73,20 @@
         "title": "Signature Projects",
         "multiple": true,
         "fields": ["title", "stack", "outcome", "link"]
+      },
+      "certifications": {
+        "title": "Certifications",
+        "multiple": true,
+        "fields": ["name", "issuer", "date"]
+      },
+      "languages": {
+        "title": "Languages",
+        "fields": ["language", "proficiency"]
+      },
+      "awards": {
+        "title": "Awards",
+        "multiple": true,
+        "fields": ["title", "issuer", "date", "description"]
       },
       "education": {
         "title": "Education & Certifications",
@@ -70,6 +106,10 @@
         "title": "Professional Summary",
         "fields": ["name", "contact", "headline", "summary"]
       },
+      "links": {
+        "title": "Online Profiles",
+        "fields": ["github", "linkedin", "portfolio_url"]
+      },
       "skills": {
         "title": "Core Competencies",
         "style": "list",
@@ -80,15 +120,24 @@
         "multiple": true,
         "fields": ["title", "company", "dates", "responsibilities", "metrics"]
       },
-      "education": {
-        "title": "Education",
-        "multiple": true,
-        "fields": ["degree", "major", "school", "graduation"]
-      },
       "certifications": {
         "title": "Certifications",
         "multiple": true,
         "fields": ["name", "issuer", "date"]
+      },
+      "languages": {
+        "title": "Languages",
+        "fields": ["language", "proficiency"]
+      },
+      "awards": {
+        "title": "Awards",
+        "multiple": true,
+        "fields": ["title", "issuer", "date", "description"]
+      },
+      "education": {
+        "title": "Education",
+        "multiple": true,
+        "fields": ["degree", "major", "school", "graduation"]
       }
     },
     "style": {
@@ -101,7 +150,11 @@
     "sections": {
       "intro": {
         "title": "Contact Information",
-        "fields": ["name", "title", "department", "institution", "contact"]
+        "fields": ["name", "title", "department", "institution", "contact", "portfolio_url", "summary"]
+      },
+      "links": {
+        "title": "Academic Profiles",
+        "fields": ["github", "linkedin", "researchgate", "portfolio_url"]
       },
       "research": {
         "title": "Research Interests",
@@ -117,6 +170,20 @@
         "title": "Research Grants",
         "multiple": true,
         "fields": ["title", "amount", "period", "funding_body"]
+      },
+      "certifications": {
+        "title": "Certifications",
+        "multiple": true,
+        "fields": ["name", "issuer", "date"]
+      },
+      "languages": {
+        "title": "Languages",
+        "fields": ["language", "proficiency"]
+      },
+      "awards": {
+        "title": "Awards & Honors",
+        "multiple": true,
+        "fields": ["title", "issuer", "date", "description"]
       },
       "teaching": {
         "title": "Teaching Experience",
@@ -139,7 +206,11 @@
     "sections": {
       "intro": {
         "title": "Executive Profile",
-        "fields": ["name", "title", "contact", "executive_summary"]
+        "fields": ["name", "title", "contact", "executive_summary", "portfolio_url", "summary"]
+      },
+      "links": {
+        "title": "Professional Profiles",
+        "fields": ["linkedin", "portfolio_url"]
       },
       "highlights": {
         "title": "Career Highlights",
@@ -150,6 +221,20 @@
         "title": "Leadership Experience",
         "multiple": true,
         "fields": ["position", "organization", "period", "p&l", "team_size", "achievements"]
+      },
+      "certifications": {
+        "title": "Certifications",
+        "multiple": true,
+        "fields": ["name", "issuer", "date"]
+      },
+      "languages": {
+        "title": "Languages",
+        "fields": ["language", "proficiency"]
+      },
+      "awards": {
+        "title": "Awards & Recognition",
+        "multiple": true,
+        "fields": ["title", "issuer", "date", "description"]
       },
       "board": {
         "title": "Board Positions",

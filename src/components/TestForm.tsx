@@ -8,22 +8,37 @@ export default function TestForm() {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
+  const [stages, setStages] = useState({
+    scraping: { completed: false, error: null as string | null },
+    resumeGeneration: { completed: false, error: null as string | null },
+    pdfGeneration: { completed: false, error: null as string | null }
+  });
 
   const handleTest = async () => {
     setLoading(true);
+    setStages({
+      scraping: { completed: false, error: null },
+      resumeGeneration: { completed: false, error: null },
+      pdfGeneration: { completed: false, error: null }
+    });
+
     try {
       const response = await fetch('/api/test-resume', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url }),
       });
 
       const data = await response.json();
       setResult(data);
+      setStages(data.stages);
     } catch (error) {
       console.error('Test failed:', error);
+      setStages({
+        scraping: { completed: false, error: 'Failed to connect to server' },
+        resumeGeneration: { completed: false, error: 'Failed to connect to server' },
+        pdfGeneration: { completed: false, error: 'Failed to connect to server' }
+      });
     } finally {
       setLoading(false);
     }
@@ -31,7 +46,7 @@ export default function TestForm() {
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Test Scraper & AI</h1>
+      <h1 className="text-2xl font-bold mb-6">Portfolio Scraper</h1>
       
       <div className="space-y-4">
         <Input
@@ -41,12 +56,21 @@ export default function TestForm() {
           placeholder="Enter portfolio URL"
         />
         
-        <Button
-          onClick={handleTest}
-          disabled={loading}
-        >
+        <Button onClick={handleTest} disabled={loading}>
           {loading ? 'Testing...' : 'Run Test'}
         </Button>
+      </div>
+
+      <div className="mt-6 text-black space-y-2">
+        <div className={`p-3 rounded ${stages.scraping.completed ? 'bg-green-50' : 'bg-red-50'}`}>
+          Scraping: {stages.scraping.completed ? '✅ Completed' : `❌ ${stages.scraping.error || 'In progress'}`}
+        </div>
+        <div className={`p-3 rounded ${stages.resumeGeneration.completed ? 'bg-green-50' : 'bg-red-50'}`}>
+          Resume Generation: {stages.resumeGeneration.completed ? '✅ Completed' : `❌ ${stages.resumeGeneration.error || 'In progress'}`}
+        </div>
+        <div className={`p-3 rounded ${stages.pdfGeneration.completed ? 'bg-green-50' : 'bg-red-50'}`}>
+          PDF Generation: {stages.pdfGeneration.completed ? '✅ Completed' : `❌ ${stages.pdfGeneration.error || 'In progress'}`}
+        </div>
       </div>
 
       {result && (
@@ -55,14 +79,14 @@ export default function TestForm() {
           <div className="space-y-4">
             <div>
               <h3 className="font-medium">Scraped Data:</h3>
-              <pre className="bg-gray-100 p-4 rounded text-sm overflow-auto">
+              <pre className="bg-gray-100 p-4 text-black rounded text-sm overflow-auto">
                 {JSON.stringify(result.scrapedData, null, 2)}
               </pre>
             </div>
             
             <div>
               <h3 className="font-medium">AI Generated Resume:</h3>
-              <pre className="bg-gray-100 p-4 rounded text-sm overflow-auto">
+              <pre className="bg-gray-100 p-4 text-black rounded text-sm overflow-auto">
                 {JSON.stringify(result.resumeContent, null, 2)}
               </pre>
             </div>

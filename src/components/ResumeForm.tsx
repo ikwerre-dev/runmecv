@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Mail, FileText, Briefcase, Link, ChevronRight, ChevronDown, Star, Target, Palette, Globe, Zap, AlertCircle } from "lucide-react";
 import { Input } from "@/components/ui/Input";
@@ -10,18 +10,23 @@ const portfolioFormats = ["Creative", "Formal", "Modern", "Minimalist", "Technic
 const resumeFormats = ["Google", "Apple", "ATS-Friendly", "Academic", "Executive"];
 
 interface FormErrors {
-  name?: string;
-  email?: string;
+
   portfolioUrl?: string;
   resumeFormat?: string;
   portfolioFormat?: string;
-  submit?: string;  
+  submit?: string;
 }
+
+const loadingMessages = [
+  "Calm down, I'm cooking... 👨‍🍳",
+  "Crafting your professional story... ✨",
+  "Making you look good on paper... 📝",
+  "Turning your experience into gold... 💫",
+  "Almost there, adding final touches... 🎨"
+];
 
 export default function ResumeForm({ onSubmit }: { onSubmit: (data: any) => void }) {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
     portfolioFormat: "",
     resumeFormat: "",
     portfolioUrl: "",
@@ -36,19 +41,21 @@ export default function ResumeForm({ onSubmit }: { onSubmit: (data: any) => void
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isSubmitting) {
+      interval = setInterval(() => {
+        setCurrentMessageIndex(prev => (prev + 1) % loadingMessages.length);
+      }, 3000);
+    }
+    return () => clearInterval(interval);
+  }, [isSubmitting]);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Invalid email format";
-    }
 
     if (!formData.portfolioUrl.trim()) {
       newErrors.portfolioUrl = "Portfolio URL is required";
@@ -75,7 +82,7 @@ export default function ResumeForm({ onSubmit }: { onSubmit: (data: any) => void
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const fieldValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
-    
+
     setFormData(prev => ({ ...prev, [name]: fieldValue }));
     if (errors[name as keyof FormErrors]) {
       setErrors(prev => ({ ...prev, [name]: undefined }));
@@ -84,18 +91,31 @@ export default function ResumeForm({ onSubmit }: { onSubmit: (data: any) => void
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     try {
       setIsSubmitting(true);
-      await onSubmit(formData);
+
+      const response = await fetch('/api/generate-resume', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to generate resume');
+      }
+
+      await onSubmit(result);
     } catch (error) {
       setErrors(prev => ({
         ...prev,
-        submit: "Failed to submit form. Please try again."
+        submit: error instanceof Error ? error.message : 'Failed to submit form. Please try again.'
       }));
     } finally {
       setIsSubmitting(false);
@@ -103,8 +123,8 @@ export default function ResumeForm({ onSubmit }: { onSubmit: (data: any) => void
   };
 
   return (
-    <motion.form 
-      onSubmit={handleSubmit} 
+    <motion.form
+      onSubmit={handleSubmit}
       className="space-y-6 p-5 pr-6"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -116,68 +136,6 @@ export default function ResumeForm({ onSubmit }: { onSubmit: (data: any) => void
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <Input
-            label="Full Name"
-            icon={<User className="h-5 w-5" />}
-            type="text"
-            name="name"
-            required
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="John Doe"
-          />
-          {errors.name && (
-            <p className="text-red-500 text-sm flex items-center gap-1">
-              <AlertCircle className="h-4 w-4" />
-              {errors.name}
-            </p>
-          )}
-        </div>
-        
-        <div className="space-y-2">
-          <Input
-            label="Email"
-            icon={<Mail className="h-5 w-5" />}
-            type="email"
-            name="email"
-            required
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="john@example.com"
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm flex items-center gap-1">
-              <AlertCircle className="h-4 w-4" />
-              {errors.email}
-            </p>
-          )}
-        </div>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Select
-          label="Resume Format"
-          icon={<FileText className="h-5 w-5" />}
-          name="resumeFormat"
-          required
-          value={formData.resumeFormat}
-          onChange={handleChange}
-          options={resumeFormats}
-        />
-        
-        <Select
-          label="Portfolio Style"
-          icon={<Briefcase className="h-5 w-5" />}
-          name="portfolioFormat"
-          required
-          value={formData.portfolioFormat}
-          onChange={handleChange}
-          options={portfolioFormats}
-        />
-      </div>
-      
       <Input
         label="Portfolio URL"
         icon={<Link className="h-5 w-5" />}
@@ -188,7 +146,29 @@ export default function ResumeForm({ onSubmit }: { onSubmit: (data: any) => void
         onChange={handleChange}
         placeholder="https://your-portfolio-url.com"
       />
-      
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Select
+          label="Resume Format"
+          icon={<FileText className="h-5 w-5" />}
+          name="resumeFormat"
+          required
+          value={formData.resumeFormat}
+          onChange={handleChange}
+          options={resumeFormats}
+        />
+
+        <Select
+          label="Portfolio Style"
+          icon={<Briefcase className="h-5 w-5" />}
+          name="portfolioFormat"
+          required
+          value={formData.portfolioFormat}
+          onChange={handleChange}
+          options={portfolioFormats}
+        />
+      </div>
+
       <div className="flex items-center gap-3 p-4 rounded-xl border border-[#FFFBDB]/30  bg-[#FF66B3]/5">
         <input
           type="checkbox"
@@ -255,7 +235,7 @@ export default function ResumeForm({ onSubmit }: { onSubmit: (data: any) => void
         <div className="relative bg-[#FF66B3] text-[#FFFBDB] px-8 py-4 rounded-xl flex items-center justify-center gap-2 border border-[#FF66B3]/50 text-lg">
           {isSubmitting ? (
             <>
-              <span className="animate-pulse">Generating...</span>
+              <span className="animate-pulse">{loadingMessages[currentMessageIndex]}</span>
               <div className="h-5 w-5 border-2 border-[#FFFBDB] border-t-transparent rounded-full animate-spin" />
             </>
           ) : (

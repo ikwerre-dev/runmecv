@@ -3,6 +3,18 @@ import { scrapePortfolio } from '@/services/scraper';
 import { generateResume } from '@/services/ai';
 import { generatePDF } from '@/services/pdf';
 import { logToFile } from '@/utils/logger';
+import { analyzePortfolioWithRetry } from '@/services/portfolioAnalysis';
+
+async function generateResumeWithRetry(scrapedData: any, options: any, retries = 3, delay = 5000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await generateResume(scrapedData, options);
+    } catch (error) {
+      if (i === retries - 1) throw error;
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
 
 export async function POST(request: Request) {
   try {
@@ -14,29 +26,36 @@ export async function POST(request: Request) {
     logToFile('api-scraped-data', JSON.stringify({ timestamp: new Date().toISOString(), data: scrapedData }));
     console.log("✅ scrapping successful");
 
-    // Generate resume content
-    const resumeContent = await generateResume(scrapedData, {
+    // Generate resume content with retry
+    const resumeContent = await generateResumeWithRetry(scrapedData, {
       resumeFormat: 'Google',
       portfolioFormat: 'Creative',
       targetIndustry: 'Tech',
       colorScheme: 'Professional'
     });
-    logToFile('api-resume-content', JSON.stringify({ timestamp: new Date().toISOString(), content: resumeContent }));
-    console.log("✅ resume content generated");
+
+    // Analyze portfolio with retry
+    const portfolioAnalysis = await analyzePortfolioWithRetry(scrapedData, {
+      targetIndustry: 'Tech'
+    });
+    logToFile('portfolio-analysis', JSON.stringify({ timestamp: new Date().toISOString(), data: portfolioAnalysis }));
+
+    console.log("✅ portfolio analysis successful");
 
     // Generate PDF
     const pdf = await generatePDF(resumeContent, 'Google');
-    console.log("✅ pdf generated");
 
     return NextResponse.json({
       success: true,
       stages: {
         scraping: { completed: true, error: null },
         resumeGeneration: { completed: true, error: null },
+        portfolioAnalysis: { completed: true, error: null },
         pdfGeneration: { completed: true, error: null }
       },
       scrapedData,
       resumeContent,
+      portfolioAnalysis,
       pdf: pdf.toString('base64')
     });
 
@@ -50,7 +69,8 @@ export async function POST(request: Request) {
       stages: {
         scraping: { completed: false, error: errorMessage },
         resumeGeneration: { completed: false, error: errorMessage },
-        pdfGeneration: { completed: false, error: errorMessage }
+        pdfGeneration: { completed: false, error: errorMessage },
+        portfolioAnalysis: { completed: false, error: errorMessage }
       }
     }, { status: 500 });
   }

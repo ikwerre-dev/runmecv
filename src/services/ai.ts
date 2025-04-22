@@ -18,12 +18,14 @@ export async function generateResume(portfolioData: any, formData: any) {
     Create a professional resume based on the following portfolio data and preferences:
 
     guidelines:
-    for the projects section, the fileds, list atleast 5 projects and at most 10 projects.
+    for the projects section, the fileds,if it is less than 5, list all but if its atleast 5, list atleast 5 projects and at most 10 projects.
     for the skills section, list atleast 10 skills and at most 20 skills.
-    for the experience section, list atleast 5 experience and at most 10 experience.
+    for the if there is any experience section, if it is less than 5, list all but if its atleast 5, list atleast 5 experience and at most 10 experience.
     for the languages section, list atleast 1 language and at most 2 language.
     for the intro summary, let it use the available data to say a quick bio about the person especially how they are fit for the role.
     Please generate a JSON response that follows the exact structure of the template do not omit any key use exactly the structure,
+
+    FILTER OUT ANY CHARACTER THAT WILL MAKE IT NOT COME OUT AS A VALID JSON.
     
     Portfolio Data:
     ${JSON.stringify(portfolioData, null, 2)}

@@ -43,7 +43,7 @@ export default function ResumePreview({
     if (loading) {
       const interval = setInterval(() => {
         setCurrentMessageIndex(prev => (prev + 1) % loadingMessages.length);
-      }, 3000);
+      }, 1500);
       return () => clearInterval(interval);
     }
   }, [loading]);
@@ -108,42 +108,42 @@ export default function ResumePreview({
             {/* Portfolio Analysis */}
             {data.portfolioAnalysis && (
               <div>
-                <div className="flex items-center gap=2 mb-3">
+                <div className="flex items-center gap-2 mb-3">
                   <Briefcase className="h-5 w-5 mr-5 text-[#FF66B3]" />
                   <h4 className="text-lg font-semibold text-[#FF66B3]">Portfolio Analysis</h4>
                 </div>
                 
                 <div className="space-y-4">
                   <div>
-                    <h5 className="font-medium mb-1 mt-2 text-[#FF66B3]">Strengths:</h5>
+                    <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Strengths:</h5>
                     <ul className="list-disc pl-5 text-[#FFFBDB]/80">
                       {data.portfolioAnalysis.strengths.map((strength: string, index: number) => (
-                        <li key={index}>{strength}</li>
+                        <li key={index} className="pb-3" dangerouslySetInnerHTML={{ __html: strength.replace(/\*(.*?)\*/g, '<strong>$1</strong>') }} />
                       ))}
                     </ul>
                   </div>
                   
                   <div>
-                    <h5 className="font-medium mb-1 mt-2 text-[#FF66B3]">Weaknesses:</h5>
+                    <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Weaknesses:</h5>
                     <ul className="list-disc pl-5 text-[#FFFBDB]/80">
                       {data.portfolioAnalysis.weaknesses.map((weakness: string, index: number) => (
-                        <li key={index}>{weakness}</li>
+                        <li key={index} className="pb-3" dangerouslySetInnerHTML={{ __html: weakness.replace(/\*(.*?)\*/g, '<strong>$1</strong>') }} />
                       ))}
                     </ul>
                   </div>
                   
                   <div>
-                    <h5 className="font-medium mb-1 mt-2 text-[#FF66B3]">Suggestions:</h5>
+                    <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Suggestions:</h5>
                     <ul className="list-disc pl-5 text-[#FFFBDB]/80">
                       {data.portfolioAnalysis.suggestions.map((suggestion: string, index: number) => (
-                        <li key={index}>{suggestion}</li>
+                        <li key={index} className="pb-3" dangerouslySetInnerHTML={{ __html: suggestion.replace(/\*(.*?)\*/g, '<strong>$1</strong>') }} />
                       ))}
                     </ul>
                   </div>
                   
                   <div>
-                    <h5 className="font-medium mb-1 mt-2 text-[#FF66B3]">Rating:</h5>
-                    <p className="text-[#FFFBDB]/80">{data.portfolioAnalysis.rating}/100</p>
+                    <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Rating:</h5>
+                    <p className="text-[#FFFBDB]/80 text-3xl">{data.portfolioAnalysis.rating}/100</p>
                   </div>
                 </div>
               </div>
@@ -158,7 +158,7 @@ export default function ResumePreview({
           onClick={() => toggleSection('scrapedData')}
           className="w-full text-[#FFFBDB] flex items-center justify-between p-4 rounded-xl border border-[#FF66B3]/20 bg-[#FF66B3]/5"
         >
-          <span>Scraped Data</span>
+          <span>Scraped JSON Data</span>
           {expandedSections.scrapedData ? <ChevronUp /> : <ChevronDown />}
         </motion.button>
 
@@ -174,7 +174,7 @@ export default function ResumePreview({
           onClick={() => toggleSection('resumeContent')}
           className="w-full text-[#FFFBDB] flex items-center justify-between p-4 rounded-xl border border-[#FF66B3]/20 bg-[#FF66B3]/5"
         >
-          <span>AI Generated Resume</span>
+          <span>AI Generated JSON for Resume</span>
           {expandedSections.resumeContent ? <ChevronUp /> : <ChevronDown />}
         </motion.button>
 

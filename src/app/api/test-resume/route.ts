@@ -17,6 +17,8 @@ async function generateResumeWithRetry(scrapedData: any, options: any, retries =
 }
 
 export async function POST(request: Request) {
+  const startTime = Date.now(); // Start time
+
   try {
     const { url } = await request.json();
     logToFile('api-request', JSON.stringify({ timestamp: new Date().toISOString(), url: url }));
@@ -45,6 +47,10 @@ export async function POST(request: Request) {
     // Generate PDF
     const pdf = await generatePDF(resumeContent, 'Google');
 
+    const endTime = Date.now(); // End time
+    const durationInSeconds = (endTime - startTime) / 1000; // Calculate duration in seconds
+    console.log(durationInSeconds)
+
     return NextResponse.json({
       success: true,
       stages: {
@@ -56,14 +62,19 @@ export async function POST(request: Request) {
       scrapedData,
       resumeContent,
       portfolioAnalysis,
-      pdf: pdf.toString('base64')
+      pdf: pdf.toString('base64'),
+      durationInSeconds // Add duration to the response
     });
 
   } catch (error) {
+    const endTime = Date.now(); // End time
+    const durationInSeconds = (endTime - startTime) / 1000; // Calculate duration in seconds
+
+
     console.error(error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     logToFile('api-error', JSON.stringify({ timestamp: new Date().toISOString(), error: errorMessage }));
-
+    console.log(durationInSeconds)
     return NextResponse.json({
       success: false,
       stages: {
@@ -71,7 +82,8 @@ export async function POST(request: Request) {
         resumeGeneration: { completed: false, error: errorMessage },
         pdfGeneration: { completed: false, error: errorMessage },
         portfolioAnalysis: { completed: false, error: errorMessage }
-      }
+      },
+      durationInSeconds // Add duration to the response
     }, { status: 500 });
   }
 }

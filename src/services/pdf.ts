@@ -10,7 +10,13 @@ export async function generatePDF(resumeData: any, format: string): Promise<Buff
   const html = compiledTemplate(resumeData);
 
   // Read the Browserless.io API key from environment variables
-  const browserlessApiKey = process.env.BROWSERLESS_API_KEY;
+  // Randomly select between BROWSERLESS_API_KEY_3 and BROWSERLESS_API_KEY_4
+  const browserlessApiKey = Math.random() < 0.5 
+    ? process.env.BROWSERLESS_API_KEY_3 
+    : process.env.BROWSERLESS_API_KEY_4;
+
+  console.log(`Using Browserless API Key: ${browserlessApiKey === process.env.BROWSERLESS_API_KEY_3 ? '3' : '4'}`);
+
   if (!browserlessApiKey) {
     throw new Error('Browserless API key is missing in environment variables');
   }

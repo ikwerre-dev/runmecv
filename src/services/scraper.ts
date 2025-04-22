@@ -1,8 +1,12 @@
 import puppeteer from 'puppeteer';
 
 export async function scrapePortfolio(url: string) {
-  // Read the Browserless.io API key from environment variables
-  const browserlessApiKey = process.env.BROWSERLESS_API_KEY;
+  const browserlessApiKey = Math.random() < 0.5
+    ? process.env.BROWSERLESS_API_KEY_1
+    : process.env.BROWSERLESS_API_KEY_2;
+
+  console.log(`Using Browserless API Key: ${browserlessApiKey === process.env.BROWSERLESS_API_KEY_1 ? '1' : '2'}`);
+
   if (!browserlessApiKey) {
     throw new Error('Browserless API key is missing in environment variables');
   }
@@ -12,7 +16,7 @@ export async function scrapePortfolio(url: string) {
     browserWSEndpoint: `wss://chrome.browserless.io?token=${browserlessApiKey}`,
   });
   const page = await browser.newPage();
-  
+
   try {
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
 

@@ -1,9 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download, Share2, ChefHat, X, FileText, Briefcase, Mail, ChevronDown, ChevronUp } from "lucide-react";
-import Link from "next/link";
+import { Download, ChefHat, X, Briefcase, ChevronDown, ChevronUp } from "lucide-react";
 import { useEffect, useState } from "react";
+
+import copy from 'clipboard-copy';
+import { Copy, Check } from 'lucide-react';
 
 const loadingMessages = [
   "Polishing your achievements... ✨",
@@ -32,7 +34,19 @@ export default function ResumePreview({
     scrapedData: false,
     resumeContent: false
   });
+  const [copiedScraped, setCopiedScraped] = useState(false);
+  const [copiedResume, setCopiedResume] = useState(false);
 
+  const handleCopy = async (text: string, type: 'scraped' | 'resume') => {
+    await copy(text);
+    if (type === 'scraped') {
+      setCopiedScraped(true);
+      setTimeout(() => setCopiedScraped(false), 2000);
+    } else {
+      setCopiedResume(true);
+      setTimeout(() => setCopiedResume(false), 2000);
+    }
+  };
   const toggleSection = (section: keyof ExpandedSections) => {
     setExpandedSections(prev => ({
       ...prev,
@@ -100,57 +114,59 @@ export default function ResumePreview({
       {/* Main Resume Content */}
       <div className="relative">
         <div className="absolute inset-0 bg-[#FF66B3]/5 rounded-2xl blur-lg" />
-        <div className="relative bg-[#0C1713]/60 backdrop-blur-sm rounded-2xl p-6 border border-[#FF66B3]/20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="space-y-6"
-          >
-            {/* Portfolio Analysis */}
-            {data.portfolioAnalysis && (
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Briefcase className="h-5 w-5 mr-5 text-[#FF66B3]" />
-                  <h4 className="text-lg font-semibold text-[#FF66B3]">Portfolio Analysis</h4>
+        {data.portfolioAnalysis && (
+
+          <div className="relative bg-[#0C1713]/60 backdrop-blur-sm rounded-2xl p-6 border border-[#FF66B3]/20">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              {data.portfolioAnalysis && (
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Briefcase className="h-5 w-5 mr-5 text-[#FF66B3]" />
+                    <h4 className="text-lg font-semibold text-[#FF66B3]">Portfolio Analysis</h4>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Strengths:</h5>
+                      <ul className="list-disc pl-5 text-[#FFFBDB]/80">
+                        {data.portfolioAnalysis.strengths.map((strength: string, index: number) => (
+                          <li key={index} className="pb-3" dangerouslySetInnerHTML={{ __html: strength.replace(/\*(.*?)\*/g, '<strong>$1</strong>') }} />
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Weaknesses:</h5>
+                      <ul className="list-disc pl-5 text-[#FFFBDB]/80">
+                        {data.portfolioAnalysis.weaknesses.map((weakness: string, index: number) => (
+                          <li key={index} className="pb-3" dangerouslySetInnerHTML={{ __html: weakness.replace(/\*(.*?)\*/g, '<strong>$1</strong>') }} />
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Suggestions:</h5>
+                      <ul className="list-disc pl-5 text-[#FFFBDB]/80">
+                        {data.portfolioAnalysis.suggestions.map((suggestion: string, index: number) => (
+                          <li key={index} className="pb-3" dangerouslySetInnerHTML={{ __html: suggestion.replace(/\*(.*?)\*/g, '<strong>$1</strong>') }} />
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Rating:</h5>
+                      <p className="text-[#FFFBDB]/80 text-3xl">{data.portfolioAnalysis.rating}/100</p>
+                    </div>
+                  </div>
                 </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Strengths:</h5>
-                    <ul className="list-disc pl-5 text-[#FFFBDB]/80">
-                      {data.portfolioAnalysis.strengths.map((strength: string, index: number) => (
-                        <li key={index} className="pb-3" dangerouslySetInnerHTML={{ __html: strength.replace(/\*(.*?)\*/g, '<strong>$1</strong>') }} />
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Weaknesses:</h5>
-                    <ul className="list-disc pl-5 text-[#FFFBDB]/80">
-                      {data.portfolioAnalysis.weaknesses.map((weakness: string, index: number) => (
-                        <li key={index} className="pb-3" dangerouslySetInnerHTML={{ __html: weakness.replace(/\*(.*?)\*/g, '<strong>$1</strong>') }} />
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Suggestions:</h5>
-                    <ul className="list-disc pl-5 text-[#FFFBDB]/80">
-                      {data.portfolioAnalysis.suggestions.map((suggestion: string, index: number) => (
-                        <li key={index} className="pb-3" dangerouslySetInnerHTML={{ __html: suggestion.replace(/\*(.*?)\*/g, '<strong>$1</strong>') }} />
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Rating:</h5>
-                    <p className="text-[#FFFBDB]/80 text-3xl">{data.portfolioAnalysis.rating}/100</p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </motion.div>
-        </div>
+              )}
+            </motion.div>
+          </div>
+        )}
       </div>
 
       {/* Collapsible Sections and PDF Download remain the same */}
@@ -163,24 +179,36 @@ export default function ResumePreview({
           {expandedSections.scrapedData ? <ChevronUp /> : <ChevronDown />}
         </motion.button>
 
+
         {expandedSections.scrapedData && (
-          <div className="bg-[#0C1713]/60 backdrop-blur-sm rounded-2xl p-6 border border-[#FF66B3]/20">
+          <div className="bg-[#0C1713]/60 backdrop-blur-sm rounded-2xl p-6 border border-[#FF66B3]/20 relative">
+            <button
+              onClick={() => handleCopy(JSON.stringify(data.scrapedData, null, 2), 'scraped')}
+              className="absolute top-4 right-4 p-2 rounded-lg hover:bg-[#FF66B3]/10 text-[#FF66B3] transition-colors"
+            >
+              {copiedScraped ? <Check className="h-5 w-5" /> : <Copy className="h-5 w-5" />}
+            </button>
             <pre className="text-[#FFFBDB]/80 whitespace-pre-wrap">
               {JSON.stringify(data.scrapedData, null, 2)}
             </pre>
           </div>
         )}
-
         <motion.button
           onClick={() => toggleSection('resumeContent')}
           className="w-full text-[#FFFBDB] flex items-center justify-between p-4 rounded-xl border border-[#FF66B3]/20 bg-[#FF66B3]/5"
         >
-          <span>AI Generated JSON for Resume</span>
+          <span>Resume Data</span>
           {expandedSections.resumeContent ? <ChevronUp /> : <ChevronDown />}
         </motion.button>
 
         {expandedSections.resumeContent && (
-          <div className="bg-[#0C1713]/60 backdrop-blur-sm rounded-2xl p-6 border border-[#FF66B3]/20">
+          <div className="bg-[#0C1713]/60 backdrop-blur-sm rounded-2xl p-6 border border-[#FF66B3]/20 relative">
+            <button
+              onClick={() => handleCopy(JSON.stringify(data.resumeContent, null, 2), 'resume')}
+              className="absolute top-4 right-4 p-2 rounded-lg hover:bg-[#FF66B3]/10 text-[#FF66B3] transition-colors"
+            >
+              {copiedResume ? <Check className="h-5 w-5" /> : <Copy className="h-5 w-5" />}
+            </button>
             <pre className="text-[#FFFBDB]/80 whitespace-pre-wrap">
               {JSON.stringify(data.resumeContent, null, 2)}
             </pre>

@@ -11,6 +11,7 @@
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
     "@sparticuz/chromium": "^133.0.0",
+    "clipboard-copy": "^4.0.1",
     "dotenv": "^16.5.0",
     "emitter": "^0.0.5",
     "express": "^5.1.0",

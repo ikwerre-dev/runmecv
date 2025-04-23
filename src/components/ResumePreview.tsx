@@ -201,16 +201,8 @@ export default function ResumePreview({
         >
           <div className="absolute inset-0 bg-[#FF66B3] rounded-xl blur-sm opacity=50 group-hover:opacity=75 transition-opacity" />
           <div className="relative bg-[#FF66B3] text-[#FFFBDB] px-6 py-3 rounded-xl flex items-center justify-center gap=2 border border-[#FF66B3]/50">
-            <a
-              href={`data:application/pdf;base64,${data.pdf}`}
-              download="resume.pdf"
-              className="flex items-center gap=2"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Download className="h-5 w-5" />
-              Download PDF
-            </a>
+            <Download className="h-5 w-5" />
+            Download PDF
           </div>
         </motion.a>
       )}

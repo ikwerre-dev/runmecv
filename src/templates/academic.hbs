@@ -2,115 +2,172 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>{{intro.name}} - Academic CV</title>
+  <title>{{#if intro.name}}{{intro.name}}{{else}}Curriculum Vitae{{/if}}</title>
   <style>
-    :root {
-      --primary: #14213d;
-      --secondary: #4a5568;
-      --accent: #1a365d;
-    }
     body {
-      font-family: 'Times New Roman', serif;
+      font-family: Times New Roman, serif;
+      font-size: 12pt;
       line-height: 1.6;
-      max-width: 1000px;
+      color: #000000;
+      max-width: 800px;
       margin: 0 auto;
-      padding: 40px;
-      color: var(--primary);
+      padding: 30px;
+      background: #ffffff;
     }
+
     .header {
-      text-align: center;
-      margin-bottom: 40px;
-      border-bottom: 2px solid var(--primary);
-      padding-bottom: 20px;
-    }
-    .name {
-      font-size: 2.5em;
-      margin: 0;
-    }
-    .title {
-      font-size: 1.5em;
-      color: var(--secondary);
-      margin: 10px 0;
-    }
-    .contact-info {
-      margin-top: 15px;
-      font-style: italic;
-    }
-    .section {
-      margin: 30px 0;
-    }
-    .section-title {
-      font-size: 1.8em;
-      color: var(--accent);
-      border-bottom: 1px solid var(--secondary);
       margin-bottom: 20px;
     }
-    .research-area {
-      margin: 15px 0;
+
+    .name {
+      font-size: 22pt;
+      font-weight: bold;
+      margin: 0;
     }
-    .publication {
+
+    .contact {
+      font-size: 11pt;
+      margin: 5px 0;
+    }
+
+    .section {
       margin: 20px 0;
-      padding-left: 25px;
-      text-indent: -25px;
     }
-    .grant {
+
+    .section-title {
+      font-size: 16pt;
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .summary, .areas, .methodologies, .current_focus {
+      font-size: 11pt;
+      margin: 5px 0;
+    }
+
+    .publication-item, .grant-item, .teaching-item, .certification-item, .award-item, .education-item {
       margin: 15px 0;
-      padding: 15px;
-      background: #f8f9fa;
     }
-    .course {
-      margin: 15px 0;
+
+    .publication-item h3, .grant-item h3, .teaching-item h3, .certification-item h3, .award-item h3, .education-item h3 {
+      font-size: 13pt;
+      font-weight: bold;
+      margin: 5px 0;
     }
-    .degree {
-      margin: 20px 0;
+
+    .publication-item p, .grant-item p, .teaching-item p, .certification-item p, .award-item p, .education-item p {
+      font-size: 11pt;
+      margin: 3px 0;
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 20px;
+      margin: 5px 0;
+    }
+
+    li {
+      font-size: 11pt;
+      margin-bottom: 5px;
+    }
+
+    .links p {
+      font-size: 11pt;
+      margin: 3px 0;
+    }
+
+    @media print {
+      body {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1 class="name">{{#if sections.intro.fields.name}}{{sections.intro.fields.name}}{{else}}Your Name{{/if}}</h1>
-    <div class="contact-info">
-      {{#if sections.intro.fields.email}}{{sections.intro.fields.email}} | {{/if}}
-      {{#if sections.intro.fields.phone}}{{sections.intro.fields.phone}} | {{/if}}
-      {{#if sections.intro.fields.location}}{{sections.intro.fields.location}} | {{/if}}
-      {{#if sections.links.fields.portfolio_url}}{{sections.links.fields.portfolio_url}}{{/if}}
+    <h1 class="name">
+      {{#each sections.intro.fields}}
+      {{#if name}}{{name}}{{/if}}
+      {{/each}}
+    </h1>
+    <div class="contact">
+      {{#each sections.intro.fields}}
+      {{#if title}}<p>{{title}}</p>{{/if}}
+      {{#if department}}<p>{{department}}</p>{{/if}}
+      {{#if institution}}<p>{{institution}}</p>{{/if}}
+      {{#if contact}}<p>{{contact}}</p>{{/if}}
+      {{#if portfolio_url}}<p>{{portfolio_url}}</p>{{/if}}
+      {{/each}}
     </div>
   </div>
 
-  {{#if sections.experience.fields}}
+  {{#each sections.intro.fields}}
+  {{#if summary}}
   <div class="section">
-    <h2 class="section-title">Professional Experience</h2>
-    {{#each sections.experience.fields}}
-    <div class="experience-item">
-      <h3>{{position}} at {{company}}</h3>
-      {{#if duration}}<p class="dates">{{duration}}</p>{{/if}}
-      {{#if achievements}}<p>{{achievements}}</p>{{/if}}
-    </div>
-    {{/each}}
+    <h2 class="section-title">{{../sections.intro.title}}</h2>
+    <p class="summary">{{summary}}</p>
   </div>
   {{/if}}
+  {{/each}}
 
-  {{#if sections.skills.grouping}}
+  {{#if sections.links.fields}}
   <div class="section">
-    <h2 class="section-title">Technical Skills</h2>
-    <div class="skills-list">
-      {{#each sections.skills.grouping}}
-        {{#each skills}}
-          <span class="skill">{{this}}</span>
-        {{/each}}
+    <h2 class="section-title">{{sections.links.title}}</h2>
+    <div class="links">
+      {{#each sections.links.fields}}
+      {{#if github}}<p>GitHub: {{github}}</p>{{/if}}
+      {{#if linkedin}}<p>LinkedIn: {{linkedin}}</p>{{/if}}
+      {{#if researchgate}}<p>ResearchGate: {{researchgate}}</p>{{/if}}
+      {{#if portfolio_url}}<p>Portfolio: {{portfolio_url}}</p>{{/if}}
       {{/each}}
     </div>
   </div>
   {{/if}}
 
-  {{#if sections.projects.fields}}
+  {{#if sections.research.fields}}
   <div class="section">
-    <h2 class="section-title">Research Projects</h2>
-    {{#each sections.projects.fields}}
-    <div class="project">
-      <h3>{{name}}</h3>
-      {{#if description}}<p>{{description}}</p>{{/if}}
-      {{#if technologies}}<p><strong>Technologies:</strong> {{technologies}}</p>{{/if}}
+    <h2 class="section-title">{{sections.research.title}}</h2>
+    {{#each sections.research.fields}}
+    {{#if areas}}<p><strong>Areas:</strong> {{areas}}</p>{{/if}}
+    {{#if methodologies}}<p><strong>Methodologies:</strong> {{methodologies}}</p>{{/if}}
+    {{#if current_focus}}<p><strong>Current Focus:</strong> {{current_focus}}</p>{{/if}}
+    {{/each}}
+  </div>
+  {{/if}}
+
+  {{#if sections.publications.fields}}
+  <div class="section">
+    <h2 class="section-title">{{sections.publications.title}}</h2>
+    {{#each sections.publications.fields}}
+    <div class="publication-item">
+      <h3>{{citation}}</h3>
+      {{#if doi}}<p>DOI: {{doi}}</p>{{/if}}
+      {{#if impact_factor}}<p>Impact Factor: {{impact_factor}}</p>{{/if}}
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  {{#if sections.grants.fields}}
+  <div class="section">
+    <h2 class="section-title">{{sections.grants.title}}</h2>
+    {{#each sections.grants.fields}}
+    <div class="grant-item">
+      <h3>{{title}}</h3>
+      <p>{{amount}} - {{period}} - {{funding_body}}</p>
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  {{#if sections.teaching.fields}}
+  <div class="section">
+    <h2 class="section-title">{{sections.teaching.title}}</h2>
+    {{#each sections.teaching.fields}}
+    <div class="teaching-item">
+      <h3>{{course}}</h3>
+      <p>{{level}} - {{institution}} - {{period}}</p>
     </div>
     {{/each}}
   </div>
@@ -118,9 +175,9 @@
 
   {{#if sections.certifications.fields}}
   <div class="section">
-    <h2 class="section-title">Certifications</h2>
+    <h2 class="section-title">{{sections.certifications.title}}</h2>
     {{#each sections.certifications.fields}}
-    <div class="certification">
+    <div class="certification-item">
       <h3>{{name}}</h3>
       <p>{{issuer}} - {{date}}</p>
     </div>
@@ -130,20 +187,20 @@
 
   {{#if sections.languages.fields}}
   <div class="section">
-    <h2 class="section-title">Languages</h2>
+    <h2 class="section-title">{{sections.languages.title}}</h2>
     <ul>
       {{#each sections.languages.fields}}
       <li>{{language}} - {{proficiency}}</li>
-      {{/end}}
+      {{/each}}
     </ul>
   </div>
   {{/if}}
 
   {{#if sections.awards.fields}}
   <div class="section">
-    <h2 class="section-title">Awards & Honors</h2>
+    <h2 class="section-title">{{sections.awards.title}}</h2>
     {{#each sections.awards.fields}}
-    <div class="award">
+    <div class="award-item">
       <h3>{{title}}</h3>
       <p>{{issuer}} - {{date}}</p>
       {{#if description}}<p>{{description}}</p>{{/if}}
@@ -154,11 +211,13 @@
 
   {{#if sections.education.fields}}
   <div class="section">
-    <h2 class="section-title">Education</h2>
+    <h2 class="section-title">{{sections.education.title}}</h2>
     {{#each sections.education.fields}}
-    <div class="degree">
+    <div class="education-item">
       <h3>{{degree}}</h3>
-      <p>{{institution}} - {{duration}}</p>
+      <p>{{institution}}</p>
+      {{#if thesis}}<p>Thesis: {{thesis}}</p>{{/if}}
+      {{#if advisors}}<p>Advisors: {{advisors}}</p>{{/if}}
     </div>
     {{/each}}
   </div>

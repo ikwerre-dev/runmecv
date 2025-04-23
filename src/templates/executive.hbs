@@ -2,142 +2,226 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>{{sections.intro.fields.name}} - Executive Resume</title>
+  <title>{{#if intro.name}}{{intro.name}}{{else}}Executive Resume{{/if}}</title>
   <style>
     :root {
-      --primary: #2c3e50;
-      --accent: #34495e;
-      --gold: #c4a777;
+      --executive-dark: #2D3436;
+      --executive-gray: #636E72;
+      --executive-light: #DFE6E9;
+      --executive-accent: #0984E3;
     }
+
     body {
-      font-family: 'Georgia', serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 11pt;
       line-height: 1.6;
-      max-width: 1100px;
+      color: var(--executive-dark);
+      max-width: 800px;
       margin: 0 auto;
-      padding: 50px;
-      color: var(--primary);
+      padding: 30px;
       background: #ffffff;
     }
+
     .header {
-      border-bottom: 3px solid var(--gold);
-      padding-bottom: 30px;
-      margin-bottom: 40px;
-    }
-    .name {
-      font-size: 36px;
-      margin: 0;
-      letter-spacing: 2px;
-    }
-    .title {
-      font-size: 24px;
-      color: var(--accent);
-      margin: 10px 0;
-    }
-    .contact {
-      display: flex;
-      justify-content: space-between;
-      font-size: 16px;
-      margin-top: 20px;
-    }
-    .section {
-      margin: 35px 0;
-    }
-    .section-title {
-      font-size: 22px;
-      color: var(--primary);
-      border-bottom: 2px solid var(--gold);
-      padding-bottom: 8px;
+      text-align: center;
       margin-bottom: 25px;
+      border-bottom: 1px solid var(--executive-light);
+      padding-bottom: 15px;
     }
-    .highlights {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
+
+    .name {
+      font-size: 24pt;
+      font-weight: 700;
+      color: var(--executive-dark);
+      margin: 0;
+    }
+
+    .title {
+      font-size: 14pt;
+      font-weight: 400;
+      color: var(--executive-gray);
+      margin: 5px 0;
+    }
+
+    .contact {
+      font-size: 10pt;
+      color: var(--executive-gray);
+      margin: 5px 0;
+    }
+
+    .section {
       margin: 20px 0;
     }
-    .highlight-item {
-      padding: 20px;
-      background: #f8f9fa;
-      border-left: 3px solid var(--gold);
+
+    .section-title {
+      font-size: 16pt;
+      font-weight: 600;
+      color: var(--executive-dark);
+      margin-bottom: 12px;
+      text-transform: uppercase;
     }
-    .experience-item {
-      margin: 30px 0;
+
+    .executive-summary {
+      font-size: 11pt;
+      color: var(--executive-gray);
+      line-height: 1.7;
+      max-width: 85%;
+      margin: 0 auto;
+      text-align: center;
     }
-    .position {
-      font-size: 20px;
-      font-weight: bold;
+
+    .links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 11pt;
+      color: var(--executive-accent);
+    }
+
+    .links p {
+      margin: 0;
+    }
+
+    .highlights ul {
+      list-style: disc;
+      padding-left: 20px;
+      margin: 10px 0;
+    }
+
+    .highlights li {
+      font-size: 11pt;
+      color: var(--executive-gray);
+      margin-bottom: 8px;
+    }
+
+    .experience-item, .board-item, .certification-item, .award-item, .education-item {
+      margin: 15px 0;
+      padding-left: 10px;
+      border-left: 2px solid var(--executive-light);
+    }
+
+    .experience-item h3, .board-item h3, .certification-item h3, .award-item h3, .education-item h3 {
+      font-size: 13pt;
+      font-weight: 500;
+      color: var(--executive-dark);
+      margin: 0 0 5px;
+    }
+
+    .experience-item p, .board-item p, .certification-item p, .award-item p, .education-item p {
+      font-size: 11pt;
+      color: var(--executive-gray);
+      margin: 3px 0;
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+
+    li {
+      font-size: 11pt;
+      color: var(--executive-gray);
       margin-bottom: 5px;
     }
-    .organization {
-      font-size: 18px;
-      color: var(--accent);
-    }
-    .metrics {
-      display: flex;
-      gap: 30px;
-      margin: 10px 0;
-      font-style: italic;
-    }
-    .board-position {
-      margin: 20px 0;
-      padding: 15px;
-      background: #f8f9fa;
+
+    @media print {
+      body {
+        padding: 20px;
+      }
+
+      .links p {
+        color: var(--executive-dark);
+      }
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1 class="name">{{#if sections.intro.fields.name}}{{sections.intro.fields.name}}{{else}}Your Name{{/if}}</h1>
+    <h1 class="name">
+      {{#each sections.intro.fields}}
+      {{#if name}}{{name}}{{/if}}
+      {{/each}}
+    </h1>
+    <div class="title">
+      {{#each sections.intro.fields}}
+      {{#if title}}<p>{{title}}</p>{{/if}}
+      {{/each}}
+    </div>
     <div class="contact">
-      {{#if sections.intro.fields.email}}<span>{{sections.intro.fields.email}}</span>{{/if}}
-      {{#if sections.intro.fields.phone}}<span>{{sections.intro.fields.phone}}</span>{{/if}}
-      {{#if sections.intro.fields.location}}<span>{{sections.intro.fields.location}}</span>{{/if}}
-      {{#if sections.links.fields.portfolio_url}}<span>{{sections.links.fields.portfolio_url}}</span>{{/if}}
+      {{#each sections.intro.fields}}
+      {{#if contact}}<p>{{contact}}</p>{{/if}}
+      {{#if portfolio_url}}<p>{{portfolio_url}}</p>{{/if}}
+      {{/each}}
     </div>
   </div>
 
+  {{#each sections.intro.fields}}
+  {{#if executive_summary}}
+  <div class="section">
+    <h2 class="section-title">{{../sections.intro.title}}</h2>
+    <p class="executive-summary">{{executive_summary}}</p>
+  </div>
+  {{/if}}
+  {{/each}}
+
+  {{#if sections.links.fields}}
+  <div class="section">
+    <h2 class="section-title">{{sections.links.title}}</h2>
+    <div class="links">
+      {{#each sections.links.fields}}
+      {{#if linkedin}}<p>LinkedIn: {{linkedin}}</p>{{/if}}
+      {{#if portfolio_url}}<p>Portfolio: {{portfolio_url}}</p>{{/if}}
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if sections.highlights.fields}}
+  <div class="section">
+    <h2 class="section-title">{{sections.highlights.title}}</h2>
+    <div class="highlights">
+      <ul>
+        {{#each sections.highlights.fields}}
+        {{#if achievements}}<li>{{achievements}} - {{impact}} (Scale: {{scale}})</li>{{/if}}
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+  {{/if}}
+
   {{#if sections.experience.fields}}
   <div class="section">
-    <h2 class="section-title">Leadership Experience</h2>
+    <h2 class="section-title">{{sections.experience.title}}</h2>
     {{#each sections.experience.fields}}
     <div class="experience-item">
-      <div class="position">{{position}}</div>
-      <div class="organization">{{organization}} | {{period}}</div>
-      <div class="metrics">
-        <span>P&L: {{p_and_l}}</span>
-        <span>Team Size: {{team_size}}</span>
-      </div>
+      <h3>{{position}} at {{organization}}</h3>
+      {{#if period}}<p>{{period}}</p>{{/if}}
+      {{#if p&l}}<p>P&L: {{p&l}}</p>{{/if}}
+      {{#if team_size}}<p>Team Size: {{team_size}}</p>{{/if}}
       {{#if achievements}}<p>{{achievements}}</p>{{/if}}
     </div>
     {{/each}}
   </div>
   {{/if}}
 
-  {{#if sections.skills.grouping}}
+  {{#if sections.board.fields}}
   <div class="section">
-    <h2 class="section-title">Executive Skills</h2>
-    <div class="skills-grid">
-      {{#each sections.skills.grouping}}
-      <div>
-        <h3>{{category}}</h3>
-        {{#if skills}}
-        <ul>
-          {{#each skills}}
-          <li>{{this}}</li>
-          {{/each}}
-        </ul>
-        {{/if}}
-      </div>
-      {{/each}}
+    <h2 class="section-title">{{sections.board.title}}</h2>
+    {{#each sections.board.fields}}
+    <div class="board-item">
+      <h3>{{role}} at {{organization}}</h3>
+      {{#if period}}<p>{{period}}</p>{{/if}}
     </div>
+    {{/each}}
   </div>
   {{/if}}
 
   {{#if sections.certifications.fields}}
   <div class="section">
-    <h2 class="section-title">Certifications</h2>
+    <h2 class="section-title">{{sections.certifications.title}}</h2>
     {{#each sections.certifications.fields}}
-    <div class="certification">
+    <div class="certification-item">
       <h3>{{name}}</h3>
       <p>{{issuer}} - {{date}}</p>
     </div>
@@ -147,7 +231,7 @@
 
   {{#if sections.languages.fields}}
   <div class="section">
-    <h2 class="section-title">Languages</h2>
+    <h2 class="section-title">{{sections.languages.title}}</h2>
     <ul>
       {{#each sections.languages.fields}}
       <li>{{language}} - {{proficiency}}</li>
@@ -158,9 +242,9 @@
 
   {{#if sections.awards.fields}}
   <div class="section">
-    <h2 class="section-title">Awards & Recognition</h2>
+    <h2 class="section-title">{{sections.awards.title}}</h2>
     {{#each sections.awards.fields}}
-    <div class="award">
+    <div class="award-item">
       <h3>{{title}}</h3>
       <p>{{issuer}} - {{date}}</p>
       {{#if description}}<p>{{description}}</p>{{/if}}
@@ -169,26 +253,14 @@
   </div>
   {{/if}}
 
-  {{#if sections.board.fields}}
-  <div class="section">
-    <h2 class="section-title">Board Positions</h2>
-    {{#each sections.board.fields}}
-    <div class="board-position">
-      <h3>{{organization}}</h3>
-      <p>{{role}} | {{period}}</p>
-    </div>
-    {{/each}}
-  </div>
-  {{/if}}
-
   {{#if sections.education.fields}}
   <div class="section">
-    <h2 class="section-title">Education & Credentials</h2>
+    <h2 class="section-title">{{sections.education.title}}</h2>
     {{#each sections.education.fields}}
     <div class="education-item">
       <h3>{{degree}}</h3>
-      <p>{{institution}} - {{duration}}</p>
-      {{#if honors}}<p class="honors">{{honors}}</p>{{/if}}
+      <p>{{institution}}</p>
+      {{#if honors}}<p>Honors: {{honors}}</p>{{/if}}
     </div>
     {{/each}}
   </div>

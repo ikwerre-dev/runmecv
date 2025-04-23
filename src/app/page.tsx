@@ -170,7 +170,7 @@ export default function Home() {
               href="https://robinsonhonour.me"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#FFFBDB] text-sm hover:text-[#FFFBDB]/50 transition-colors"
+              className="text-[#FFFBDB] text-sm hover:underline underline-offset-2 hover:text-[#FFFBDB]/50 transition-colors"
             >
               Who built this?
             </Link>

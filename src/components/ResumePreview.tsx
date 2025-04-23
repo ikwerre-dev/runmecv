@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import copy from 'clipboard-copy';
 import { Copy, Check } from 'lucide-react';
 
+import { Clock, Layout, Server, Database } from 'lucide-react';
+
 const loadingMessages = [
   "Polishing your achievements... ✨",
   "Optimizing your career narrative... 📈",
@@ -111,7 +113,6 @@ export default function ResumePreview({
         </button>
       </div>
 
-      {/* Main Resume Content */}
       <div className="relative">
         <div className="absolute inset-0 bg-[#FF66B3]/5 rounded-2xl blur-lg" />
         {data.portfolioAnalysis && (
@@ -158,7 +159,7 @@ export default function ResumePreview({
                     </div>
 
                     <div>
-                      <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Rating:</h5>
+                      <h5 className="font-medium mb-2 mt-2 text-[#FF66B3]">Content Rating:</h5>
                       <p className="text-[#FFFBDB]/80 text-3xl">{data.portfolioAnalysis.rating}/100</p>
                     </div>
                   </div>
@@ -169,7 +170,119 @@ export default function ResumePreview({
         )}
       </div>
 
-      {/* Collapsible Sections and PDF Download remain the same */}
+      {data.scrapedData?.metrics && (
+        <div className="mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Load Time */}
+            <div className="bg-[#0C1713]/40 backdrop-blur-sm rounded-xl p-4 border border-[#FF66B3]/20">
+              <div className="flex items-center gap-2 mb-2">
+                <Clock className="h-5 w-5 text-[#FF66B3]" />
+                <h5 className="text-sm font-medium text-[#FF66B3]">Load Time</h5>
+              </div>
+              <p className="text-2xl font-bold text-[#FFFBDB]">
+                {(data.scrapedData.metrics.loadTimeMs / 1000).toFixed(2)}s
+              </p>
+            </div>
+
+            <div className="bg-[#0C1713]/40 backdrop-blur-sm rounded-xl p-4 border border-[#FF66B3]/20">
+              <div className="flex items-center gap-2 mb-2">
+                <Layout className="h-5 w-5 text-[#FF66B3]" />
+                <h5 className="text-sm font-medium text-[#FF66B3]">Performance Score</h5>
+              </div>
+              <div className="space-y-2">
+                {(() => {
+                  const metrics = data.scrapedData.metrics;
+                  const perf = metrics.performance;
+
+                  const loadTimeScore = Math.max(0, 100 - (metrics.loadTimeMs / 50)); // Under 5s is good
+                  const fmpScore = Math.max(0, 100 - ((perf.FirstMeaningfulPaint - perf.NavigationStart) / 50));
+
+                  const memoryScore = Math.max(0, 100 - (parseInt(metrics.pageMetrics.jsHeapSize) / 20)); // Under 2MB is good
+
+                  const resourceScore = Math.max(0, 100 - (
+                    (metrics.pageMetrics.scripts * 2) +
+                    (metrics.pageMetrics.styles * 2) +
+                    (metrics.pageMetrics.images * 1)
+                  ));
+
+                  const finalScore = Math.round((loadTimeScore + fmpScore + memoryScore + resourceScore) / 4);
+
+                  const getScoreColor = (score: number) => {
+                    if (score >= 90) return 'text-green-400';
+                    if (score >= 70) return 'text-yellow-400';
+                    return 'text-red-400';
+                  };
+
+                  return (
+                    <>
+                      <div className="flex items-center justify-between">
+                        <p className={`text-3xl font-bold ${getScoreColor(finalScore)}`}>
+                          {finalScore}/100
+                        </p>
+                      </div>
+                      <div className="space-y-1 mt-2">
+                        <p className="text-sm text-[#FFFBDB]/60 flex justify-between">
+                          <span>Load Time</span>
+                          <span className={getScoreColor(loadTimeScore)}>{Math.round(loadTimeScore)}%</span>
+                        </p>
+                        <p className="text-sm text-[#FFFBDB]/60 flex justify-between">
+                          <span>First Paint</span>
+                          <span className={getScoreColor(fmpScore)}>{Math.round(fmpScore)}%</span>
+                        </p>
+                        <p className="text-sm text-[#FFFBDB]/60 flex justify-between">
+                          <span>Memory Usage</span>
+                          <span className={getScoreColor(memoryScore)}>{Math.round(memoryScore)}%</span>
+                        </p>
+                        <p className="text-sm text-[#FFFBDB]/60 flex justify-between">
+                          <span>Resources</span>
+                          <span className={getScoreColor(resourceScore)}>{Math.round(resourceScore)}%</span>
+                        </p>
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+            </div>
+
+            {/* Resources */}
+            <div className="bg-[#0C1713]/40 backdrop-blur-sm rounded-xl p-4 border border-[#FF66B3]/20">
+              <div className="flex items-center gap-2 mb-2">
+                <Server className="h-5 w-5 text-[#FF66B3]" />
+                <h5 className="text-sm font-medium text-[#FF66B3]">Resources</h5>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-[#FFFBDB]/60">
+                  Images: {data.scrapedData.metrics.pageMetrics.images}
+                </p>
+                <p className="text-sm text-[#FFFBDB]/60">
+                  Scripts: {data.scrapedData.metrics.pageMetrics.scripts}
+                </p>
+                <p className="text-sm text-[#FFFBDB]/60">
+                  Styles: {data.scrapedData.metrics.pageMetrics.styles}
+                </p>
+              </div>
+            </div>
+
+            {/* Memory Usage */}
+            <div className="bg-[#0C1713]/40 backdrop-blur-sm rounded-xl p-4 border border-[#FF66B3]/20">
+              <div className="flex items-center gap-2 mb-2">
+                <Database className="h-5 w-5 text-[#FF66B3]" />
+                <h5 className="text-sm font-medium text-[#FF66B3]">Memory Usage</h5>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-[#FFFBDB]/60">
+                  Heap: {data.scrapedData.metrics.pageMetrics.jsHeapSize}
+                </p>
+                <p className="text-sm text-[#FFFBDB]/60">
+                  Total: {data.scrapedData.metrics.pageMetrics.totalMemory}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
       <div className="space-y-4">
         <motion.button
           onClick={() => toggleSection('scrapedData')}
